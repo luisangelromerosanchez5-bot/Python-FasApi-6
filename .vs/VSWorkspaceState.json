@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\alembic",
+    "\\alembic\\versions",
+    "\\api",
+    "\\api\\controllers",
+    "\\api\\middlewares",
+    "\\domain",
+    "\\domain\\entities"
+  ],
+  "SelectedNode": "\\domain\\entities\\compania.py",
+  "PreviewInSolutionExplorer": false
+}

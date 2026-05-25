@@ -10,7 +10,7 @@ from application.dtos.empleado_dto import (
 
 router = APIRouter(prefix="/api/empleados", tags=["Empleados"])
 
-@router.get("/", response_model=list[EmpleadoResponseDTO])
+@router.get("", response_model=list[EmpleadoResponseDTO])
 def get_all(uow: IUnitOfWork = Depends(get_uow)):
     service = EmpleadoService(uow)
     return service.get_all()
@@ -20,7 +20,7 @@ def get_by_id(id: int, uow: IUnitOfWork = Depends(get_uow)):
     service = EmpleadoService(uow)
     return service.get_by_id(id)
 
-@router.post("/", response_model=EmpleadoResponseDTO, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=EmpleadoResponseDTO, status_code=status.HTTP_201_CREATED)
 def create(dto: EmpleadoCreateDTO, uow: IUnitOfWork = Depends(get_uow)):
     service = EmpleadoService(uow)
     return service.create(dto)

@@ -13,7 +13,7 @@ from application.dtos.empleado_dto import EmpleadoResponseDTO
 
 router = APIRouter(prefix="/api/companias", tags=["Compañías"])
 
-@router.get("/", response_model=list[CompaniaResponseDTO])
+@router.get("", response_model=list[CompaniaResponseDTO])
 def get_all(uow: IUnitOfWork = Depends(get_uow)):
     service = CompaniaService(uow)
     return service.get_all()
@@ -28,7 +28,7 @@ def get_by_id(id: int, uow: IUnitOfWork = Depends(get_uow)):
     service = CompaniaService(uow)
     return service.get_by_id(id)
 
-@router.post("/", response_model=CompaniaResponseDTO, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=CompaniaResponseDTO, status_code=status.HTTP_201_CREATED)
 def create(dto: CompaniaCreateDTO, uow: IUnitOfWork = Depends(get_uow)):
     service = CompaniaService(uow)
     return service.create(dto)

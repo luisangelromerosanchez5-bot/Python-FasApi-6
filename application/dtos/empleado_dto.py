@@ -41,6 +41,6 @@ class EmpleadoResponseDTO(BaseModel):
     correo: str
     cargo: str
     salario: float
-    compania_id: int
+    compania_id: int = Field(exclude=True)
 
     model_config = ConfigDict(from_attributes=True)

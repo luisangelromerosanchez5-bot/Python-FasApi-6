@@ -24,12 +24,26 @@ def register_error_handlers(app: FastAPI):
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
         logger.warning(f"RequestValidationError en {request.url.path}: {exc.errors()}")
+        
+        errors = exc.errors()
+        message = "Error de validación en los datos de la solicitud."
+        
+        # Detectar si el cuerpo (body) está completamente ausente
+        is_body_missing = any(error.get("loc") == ("body",) and error.get("type") == "missing" for error in errors)
+        
+        if is_body_missing:
+            content_type = request.headers.get("content-type", "")
+            if "application/json" not in content_type.lower():
+                message = "El cuerpo de la solicitud JSON es requerido. Asegúrate de configurar la cabecera 'Content-Type: application/json' y enviar los datos correspondientes en el cuerpo de la petición."
+            else:
+                message = "El cuerpo de la solicitud está vacío o no es un JSON válido. Asegúrate de enviar un cuerpo JSON estructurado con los campos obligatorios."
+        
         return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             content={
                 "status": "error",
-                "message": "Error de validación en los datos de la solicitud.",
-                "detail": exc.errors()
+                "message": message,
+                "detail": errors
             }
         )
 
